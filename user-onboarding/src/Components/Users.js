@@ -1,4 +1,5 @@
 import React from 'react';
+import User from './User';
 
 export default function Users(props) {
     const { users } = props;
@@ -18,12 +19,9 @@ export default function Users(props) {
             <h2>Users:</h2>
             <div className="users-container">
                 {
-                    users.map(user => {
+                    users.map((user, index) => {
                         return (
-                            <div className="user-tile">
-                                <h4>{user.name}</h4>
-                                <p>Email: {user.email}</p>
-                            </div>
+                            <User key={index} user={user} />
                         );
                     })
                 }

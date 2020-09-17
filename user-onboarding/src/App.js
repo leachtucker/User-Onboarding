@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
+import axios from 'axios';
 
 import schema from './Validation/formSchema'
 import Form from './Components/Form';
@@ -23,10 +24,8 @@ const initialFormErrors = {
   name: "",
   email: "",
   password: "",
-  tos: ""
+  tos: "",
 }
-
-const mockData = [{name: "John Doe", email: "john@john.com", password: "jOhN"}, {name: "Alice Doe", email: "alice@alice.com", password: "Alice"}, {name: "Jane Doe", email: "jane@jane.com", password: "Jane"}, {name: "Max Doe", email: "max@max.com", password: "Max"}];
 
 function App() {
   // Slices of state
@@ -34,6 +33,18 @@ function App() {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [buttonDisabled, setButtonDisabled] = useState(initialButtonDisabled);
+
+  // HELPERS
+  const postNewUser = (newUser) => {
+    axios.post('https://reqres.in/api/users', newUser)
+      .then(res => {
+        setUsers([...users, res.data]);
+        setFormValues(initialFormValues);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
   const validate = (name, value) => {
     yup
@@ -59,7 +70,8 @@ function App() {
       password: formValues.password.trim()
     }
 
-    console.log(user);
+    // Post new user to server
+    postNewUser(user);
   }
 
   // Runs on first render of App()
@@ -79,11 +91,8 @@ function App() {
       <header>
         <h1>User Onboarding</h1>
       </header>
-      <body>
-
-        <Form formValues={formValues} formErrors={formErrors} disabled={buttonDisabled} change={inputChange} submit={formSubmit} />
-        <Users users={users} />
-      </body>
+      <Form formValues={formValues} formErrors={formErrors} disabled={buttonDisabled} change={inputChange} submit={formSubmit} />
+      <Users users={users} />
     </div>
   );
 }
