@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Form from './Components/Form.js';
+import * as yup from 'yup';
 
+import schema from './Validation/formSchema'
+import Form from './Components/Form';
 import Users from './Components/Users';
 import './App.css';
 
@@ -33,8 +35,20 @@ function App() {
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [buttonDisabled, setButtonDisabled] = useState(initialButtonDisabled);
 
+  const validate = (name, value) => {
+    yup
+      .reach(schema, name)
+        .validate(value)
+          .then(valid => {
+            setFormErrors({...formErrors, [name]: ""});
+          })
+          .catch(err => {
+            setFormErrors({...formErrors, [name]:err.errors[0]});
+          })
+  }
+
   const inputChange = (name, value) => {
-    // REMINDER: VALIDATE
+    validate(name, value);
     setFormValues({ ...formValues, [name]: value});
   }
 
@@ -50,8 +64,15 @@ function App() {
 
   // Runs on first render of App()
   useEffect(() => {
-    
+
   }, []);
+
+  useEffect(() => {
+    schema.isValid(formValues)
+      .then(valid => {
+        setButtonDisabled(!valid);
+      })
+  }, [formValues]);
 
   return (
     <div className="App">
