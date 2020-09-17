@@ -5,9 +5,9 @@ export default function User(props) {
 
     return (
         <div className="user-tile">
-            <h4>{user.name}</h4>
+            <h4 className="user-name">{user.name}</h4>
             <div>
-                <p>Email:<br /> {user.email}</p>
+                <p className="user-email">Email:<br /> {user.email}</p>
             </div>
         </div>
     );

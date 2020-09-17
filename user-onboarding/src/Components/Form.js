@@ -48,7 +48,7 @@ export default function Form(props) {
                         <input type="checkbox" name="tos" value={formValues.tos} onChange={onChange} />
                     </label>
                 </div>
-                <button disabled={disabled} onClick={onSubmit}>Submit</button>
+                <button id="submit-button" disabled={disabled} onClick={onSubmit}>Submit</button>
             </div>
         </form>
     );

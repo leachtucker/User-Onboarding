@@ -39,6 +39,7 @@ em {
 .form-container {
   width: 80%;
   margin: 0 auto;
+  margin-top: 2%;
   padding: 2% 0;
   border: 1px solid gainsboro;
   border-radius: 5px;
